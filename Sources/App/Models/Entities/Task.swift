@@ -8,7 +8,7 @@
 import Vapor
 import FluentSQLite
 
-final class Task: Codable {
+final class Task {
     var id: Int?
     var title: String
     var description: String
@@ -26,3 +26,12 @@ extension Task: Migration {}
 extension Task: Content {}
 
 extension Task: Parameter {}
+
+extension Task: Validatable {
+    static func validations() throws -> Validations<Task> {
+        var validations = Validations(Task.self)
+        try validations.add(\.title, .count(3...))
+        try validations.add(\.description, .count(5...))
+        return validations
+    }
+}
