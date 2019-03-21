@@ -1,5 +1,5 @@
 #set("content") {
-  <h1>Tasks</h1>
+  <h1>#(title)</h1>
   #if(count(tasks) > 0) {
     <table class="table">
       <thead>
