@@ -10,5 +10,6 @@ public func routes(_ router: Router) throws {
     // MARK: ViewControllers
     
     try router.register(collection: TasksViewController())
+    try router.register(collection: LoginViewController())
     
 }

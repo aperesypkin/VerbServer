@@ -7,15 +7,21 @@
 
 import Vapor
 import Fluent
+import Authentication
 
 final class TasksController: RouteCollection {
     
     func boot(router: Router) throws {
         let tasksRoute = router.grouped("api", "v1", "tasks")
         tasksRoute.get(use: getAllHandler)
-        tasksRoute.post(Task.self, use: createHandler)
-        tasksRoute.delete(Task.parameter, use: deleteHandler)
-        tasksRoute.put(Task.parameter, use: updateHandler)
+        
+        let tokenAuthMiddleware = User.tokenAuthMiddleware()
+        let guardAuthMiddleware = User.guardAuthMiddleware()
+        
+        let authRouter = router.grouped(tokenAuthMiddleware, guardAuthMiddleware)
+        authRouter.post(Task.self, use: createHandler)
+        authRouter.delete(Task.parameter, use: deleteHandler)
+        authRouter.put(Task.parameter, use: updateHandler)
     }
     
     private func getAllHandler(req: Request) throws -> Future<[Task]> {

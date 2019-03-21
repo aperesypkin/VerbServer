@@ -8,11 +8,15 @@
 import Vapor
 import Fluent
 import Leaf
+import Authentication
 
 final class TasksViewController: RouteCollection {
     
     func boot(router: Router) throws {
-        router.get(use: getAllHandler)
+        let authSessionsMiddleware = User.authSessionsMiddleware()
+        let redirectMiddleware = RedirectMiddleware<User>(path: "/login")
+        let authRoute = router.grouped(authSessionsMiddleware, redirectMiddleware)
+        authRoute.get(use: getAllHandler)
     }
     
     private func getAllHandler(req: Request) throws -> Future<View> {
