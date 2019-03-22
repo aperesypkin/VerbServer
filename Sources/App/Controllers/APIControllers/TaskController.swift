@@ -1,5 +1,5 @@
 //
-//  TasksController.swift
+//  TaskController.swift
 //  App
 //
 //  Created by Alexander Peresypkin on 12/03/2019.
@@ -9,11 +9,11 @@ import Vapor
 import Fluent
 import Authentication
 
-final class TasksController: RouteCollection {
+final class TaskController: RouteCollection {
     
     func boot(router: Router) throws {
-        let tasksRoute = router.grouped("api", "v1", "tasks")
-        tasksRoute.get(use: getAllHandler)
+        let tasksRoute = router.grouped("api", "v1", "task")
+        tasksRoute.get("info", use: getAllHandler)
         
         let tokenAuthMiddleware = User.tokenAuthMiddleware()
         let guardAuthMiddleware = User.guardAuthMiddleware()
@@ -24,8 +24,10 @@ final class TasksController: RouteCollection {
         authRouter.put(Task.parameter, use: updateHandler)
     }
     
-    private func getAllHandler(req: Request) throws -> Future<[Task]> {
-        return Task.query(on: req).all()
+    private func getAllHandler(req: Request) throws -> Future<TaskResponse> {
+        return Task.query(on: req).all().map(to: TaskResponse.self) { tasks in
+            return TaskResponse(tasks: tasks, count: tasks.count)
+        }
     }
     
     private func createHandler(req: Request, task: Task) throws -> Future<Task> {

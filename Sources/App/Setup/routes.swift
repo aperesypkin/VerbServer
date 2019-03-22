@@ -5,11 +5,12 @@ public func routes(_ router: Router) throws {
     
     // MARK: APIControllers
     
-    try router.register(collection: TasksController())
+    try router.register(collection: TaskController())
+    try router.register(collection: UserController())
     
     // MARK: ViewControllers
     
-    try router.register(collection: TasksViewController())
+    try router.register(collection: TaskViewController())
     try router.register(collection: LoginViewController())
     
 }
