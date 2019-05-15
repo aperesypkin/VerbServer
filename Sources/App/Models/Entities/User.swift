@@ -6,17 +6,20 @@
 //
 
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 import Authentication
 
 final class User {
+    
+    // MARK: - Fields
+    
     var id: Int?
     var username: String
     var password: String
+    var createdAt: Date?
+    var updatedAt: Date?
     
-    var tokens: Children<User, Token> {
-        return children(\.userID)
-    }
+    // MARK: - Initialization
     
     init(username: String, password: String) {
         self.username = username
@@ -24,36 +27,61 @@ final class User {
     }
 }
 
-extension User: SQLiteModel {}
+// MARK: - PostgreSQLModel
+
+extension User: PostgreSQLModel {
+    
+    static var createdAtKey: TimestampKey? = \.createdAt
+    static var updatedAtKey: TimestampKey? = \.updatedAt
+    
+    var tokens: Children<User, Token> {
+        return children(\.userID)
+    }
+}
+
+// MARK: - Migration
 
 extension User: Migration {}
 
+// MARK: - Content
+
 extension User: Content {}
+
+// MARK: - Parameter
 
 extension User: Parameter {}
 
+// MARK: - TokenAuthenticatable
+
 extension User: TokenAuthenticatable {
+    
     typealias TokenType = Token
 }
 
+// MARK: - PasswordAuthenticatable
+
 extension User: PasswordAuthenticatable {
-    static let usernameKey: WritableKeyPath<User, String> = \.username
-    static let passwordKey: WritableKeyPath<User, String> = \.password
+    
+    static let usernameKey: UsernameKey = \.username
+    static let passwordKey: PasswordKey = \.password
 }
+
+// MARK: - SessionAuthenticatable
 
 extension User: SessionAuthenticatable {}
 
-struct AdminUser: Migration {
-    typealias Database = SQLiteDatabase
+// MARK: - Database migrations
+
+struct AdminUser: PostgreSQLMigration {
     
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
+    static func prepare(on conn: PostgreSQLConnection) -> Future<Void> {
         let password = try? BCrypt.hash("123456")
         guard let hashedPassword = password else { fatalError("Failed to create admin user") }
         let user = User(username: "admin", password: hashedPassword)
         return user.save(on: conn).transform(to: ())
     }
     
-    static func revert(on conn: SQLiteConnection) -> Future<Void> {
+    static func revert(on conn: PostgreSQLConnection) -> Future<Void> {
         return .done(on: conn)
     }
 }

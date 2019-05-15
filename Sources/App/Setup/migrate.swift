@@ -6,13 +6,28 @@
 //
 
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 
 public func migrate(migrations: inout MigrationConfig) throws {
     
-    migrations.add(model: Task.self, database: .sqlite)
-    migrations.add(model: User.self, database: .sqlite)
-    migrations.add(model: Token.self, database: .sqlite)
-    migrations.add(migration: AdminUser.self, database: .sqlite)
+    // MARK: - Enums
     
+    migrations.add(migration: TaskType.self, database: .psql)
+    
+    // MARK: - Entities
+    
+    migrations.add(model: Task.self, database: .psql)
+    migrations.add(model: User.self, database: .psql)
+    migrations.add(model: Token.self, database: .psql)
+    migrations.add(model: Verb.self, database: .psql)
+    
+    // MARK: - Pivots
+    
+    migrations.add(model: TaskVerbPivot.self, database: .psql)
+    
+    // MARK: - Database data
+    
+    migrations.add(migration: AdminUser.self, database: .psql)
+    
+    // MARK: - Migrations
 }

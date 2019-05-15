@@ -7,7 +7,7 @@
     <div class="form-group">
       <textarea rows="3" type="description" name="description" placeholder="Description" class="form-control" id="description"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
   </form>
 }
 #embed("base")

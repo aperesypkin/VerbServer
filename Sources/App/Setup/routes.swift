@@ -12,5 +12,4 @@ public func routes(_ router: Router) throws {
     
     try router.register(collection: TaskViewController())
     try router.register(collection: LoginViewController())
-    
 }

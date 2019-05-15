@@ -6,12 +6,17 @@
 //
 
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 
 public func databases(config: inout DatabasesConfig) throws {
     
-    let database = try SQLiteDatabase(storage: .memory)
+    let pgConfig = PostgreSQLDatabaseConfig(hostname: "localhost",
+                                            port: 5432,
+                                            username: "postgres",
+                                            database: "verb_server",
+                                            password: "123456")
     
-    config.add(database: database, as: .sqlite)
+    let database = PostgreSQLDatabase(config: pgConfig)
     
+    config.add(database: database, as: .psql)
 }
