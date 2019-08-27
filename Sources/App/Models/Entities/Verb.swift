@@ -14,14 +14,16 @@ final class Verb {
     
     var id: Int?
     var infinitive: String
+    var language: Language
     var transcription: String?
     var createdAt: Date?
     var updatedAt: Date?
     
     // MARK: - Initialization
     
-    init(infinitive: String, transcription: String? = nil) {
+    init(infinitive: String, language: Language, transcription: String? = nil) {
         self.infinitive = infinitive
+        self.language = language
         self.transcription = transcription
     }
 }
@@ -35,6 +37,10 @@ extension Verb: PostgreSQLModel {
     
     var tasks: Siblings<Verb, Task, TaskVerbPivot> {
         return siblings()
+    }
+    
+    var answers: Children<Verb, Answer> {
+        return children(\.verbID)
     }
 }
 

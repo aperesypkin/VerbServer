@@ -13,6 +13,7 @@ public func migrate(migrations: inout MigrationConfig) throws {
     // MARK: - Enums
     
     migrations.add(migration: TaskType.self, database: .psql)
+    migrations.add(migration: Language.self, database: .psql)
     
     // MARK: - Entities
     
@@ -20,6 +21,7 @@ public func migrate(migrations: inout MigrationConfig) throws {
     migrations.add(model: User.self, database: .psql)
     migrations.add(model: Token.self, database: .psql)
     migrations.add(model: Verb.self, database: .psql)
+    migrations.add(model: Answer.self, database: .psql)
     
     // MARK: - Pivots
     
