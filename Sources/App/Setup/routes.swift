@@ -6,6 +6,8 @@ public func routes(_ router: Router) throws {
     // MARK: APIControllers
     
     try router.register(collection: TaskController())
+    try router.register(collection: VerbController())
+    try router.register(collection: AnswerController())
     try router.register(collection: UserController())
     
     // MARK: ViewControllers

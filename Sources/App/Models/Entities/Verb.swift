@@ -46,7 +46,15 @@ extension Verb: PostgreSQLModel {
 
 // MARK: - Migration
 
-extension Verb: Migration {}
+extension Verb: Migration {
+    
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection) { builder in
+            try addProperties(to: builder)
+            builder.unique(on: \.infinitive)
+        }
+    }
+}
 
 // MARK: - Content
 
@@ -55,3 +63,14 @@ extension Verb: Content {}
 // MARK: - Parameter
 
 extension Verb: Parameter {}
+
+// MARK: - Validatable
+
+extension Verb: Validatable {
+    
+    static func validations() throws -> Validations<Verb> {
+        var validations = Validations(Verb.self)
+        try validations.add(\.infinitive, .count(2...30))
+        return validations
+    }
+}

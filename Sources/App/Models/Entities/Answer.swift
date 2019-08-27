@@ -42,7 +42,16 @@ extension Answer: PostgreSQLModel {
 
 // MARK: - Migration
 
-extension Answer: Migration {}
+extension Answer: Migration {
+    
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection) { builder in
+            try addProperties(to: builder)
+            builder.unique(on: \.value)
+            builder.reference(from: \.verbID, to: \Verb.id, onDelete: .cascade)
+        }
+    }
+}
 
 // MARK: - Content
 
@@ -51,3 +60,14 @@ extension Answer: Content {}
 // MARK: - Parameter
 
 extension Answer: Parameter {}
+
+// MARK: - Validatable
+
+extension Answer: Validatable {
+    
+    static func validations() throws -> Validations<Answer> {
+        var validations = Validations(Answer.self)
+        try validations.add(\.value, .count(2...30))
+        return validations
+    }
+}

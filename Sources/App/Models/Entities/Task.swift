@@ -42,7 +42,15 @@ extension Task: PostgreSQLModel {
 
 // MARK: - Migration
 
-extension Task: Migration {}
+extension Task: Migration {
+    
+    static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
+        return Database.create(self, on: connection) { builder in
+            try addProperties(to: builder)
+            builder.unique(on: \.title)
+        }
+    }
+}
 
 // MARK: - Content
 

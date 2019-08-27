@@ -28,7 +28,7 @@ final class TaskController: RouteCollection {
     
     private func getAllHandler(req: Request) throws -> Future<TaskResponse> {
         
-        let tasksFuture = Task.query(on: req).range(0..<10).all()
+        let tasksFuture = Task.query(on: req).sort(\.id, .ascending).all()
         let totalCountFuture = Task.query(on: req).count()
         return map(tasksFuture, totalCountFuture) { tasks, totalCount in
             return TaskResponse(tasks: tasks, totalCount: totalCount)
@@ -51,6 +51,7 @@ final class TaskController: RouteCollection {
         return try flatMap(to: Task.self, req.parameters.next(Task.self), req.content.decode(TaskRequest.self)) { task, taskRequest in
             if let title = taskRequest.title { task.title = title }
             if let description = taskRequest.description { task.description = description }
+            if let type = taskRequest.type { task.type = type }
             
             try task.validate()
             
