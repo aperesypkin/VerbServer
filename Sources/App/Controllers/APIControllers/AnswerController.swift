@@ -44,7 +44,7 @@ final class AnswerController: RouteCollection {
     
     private func updateHandler(req: Request) throws -> Future<Answer> {
         
-        return try flatMap(to: Answer.self, req.parameters.next(Answer.self), req.content.decode(AnswerRequest.self)) { answer, answerRequest in
+        return try flatMap(req.parameters.next(Answer.self), req.content.decode(AnswerRequest.self)) { answer, answerRequest in
             if let value = answerRequest.value { answer.value = value }
             if let isRight = answerRequest.isRight { answer.isRight = isRight }
             if let verbID = answerRequest.verbID { answer.verbID = verbID }

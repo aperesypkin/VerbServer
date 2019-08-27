@@ -1,0 +1,45 @@
+#set("content") {
+  <h3>#(title)</h3>
+  <p class="h8"><b>Identifier:</b> #(verb.id)</p>
+  <p class="h8"><b>Infinitive:</b> #(verb.infinitive)</p>
+  <p class="h8"><b>Transcription:</b> #(verb.transcription)</p>
+  <p class="h8"><b>Language:</b> #(verb.language)</p>
+  #if(count(tasks) > 0) {
+    <h3>Таски</h3>
+    <table class="table w-75">
+      <tbody>
+        #for(task in tasks) {
+          <tr>
+            <td>
+              <a href="/#(task.id)/info" class="label">#(task.title)</a>
+            </td>
+            <td>
+              <form method="post" action="/verbs/#(verb.id)/detach/#(task.id)">
+                <div class="form-group input-group">
+                  <span class="input-group-btn">
+                    <input class="btn btn-danger" type="submit" value="Detach" />
+                  </span>
+                </div>
+              </form>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  #if(count(answers) > 0) {
+    <h3>Ответы (#count(answers))</h3>
+    <table class="table w-75">
+      <tbody>
+        #for(answer in answers) {
+          <tr>
+            <td class=#if(answer.isRight){table-success} else{table-danger}>
+              <a href="/answers/#(answer.id)/info" class="label">#(answer.value)</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}
+#embed("base")

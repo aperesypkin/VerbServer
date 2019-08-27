@@ -44,7 +44,7 @@ final class VerbController: RouteCollection {
     
     private func updateHandler(req: Request) throws -> Future<Verb> {
         
-        return try flatMap(to: Verb.self, req.parameters.next(Verb.self), req.content.decode(VerbRequest.self)) { verb, verbRequest in
+        return try flatMap(req.parameters.next(Verb.self), req.content.decode(VerbRequest.self)) { verb, verbRequest in
             if let infinitive = verbRequest.infinitive { verb.infinitive = infinitive }
             if let language = verbRequest.language { verb.language = language }
             if let transcription = verbRequest.transcription { verb.transcription = transcription }

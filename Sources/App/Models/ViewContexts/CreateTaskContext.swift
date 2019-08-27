@@ -8,5 +8,5 @@
 import Vapor
 
 struct CreateTaskContext: Encodable {
-    let title = "Create task"
+    let title = "Создать таску"
 }

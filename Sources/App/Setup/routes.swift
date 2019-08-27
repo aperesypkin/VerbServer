@@ -14,4 +14,6 @@ public func routes(_ router: Router) throws {
     
     try router.register(collection: TaskViewController())
     try router.register(collection: LoginViewController())
+    try router.register(collection: VerbViewController())
+    try router.register(collection: AnswerViewController())
 }

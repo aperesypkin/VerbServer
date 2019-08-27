@@ -1,40 +1,40 @@
 #set("content") {
-  <h3>#(title) #if(count(tasks) > 0){(#count(tasks))}</h3>
+  <h3>#(title) #if(count(verbs) > 0){(#count(verbs))}</h3>
   <div class="mx-auto" style="height: 50px;">
-    <a href="/createTask" class="btn btn-primary">Создать</a>
+    <a href="verbs/createVerb" class="btn btn-primary">Создать</a>
   </div>
-  #if(count(tasks) > 0) {
+  #if(count(verbs) > 0) {
     <table class="table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Type</th>
+          <th>Infinitive</th>
+          <th>Transcription</th>
+          <th>Language</th>
           <th></th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        #for(task in tasks) {
+        #for(verb in verbs) {
           <tr>
             <td>
-              #(task.id)
+              #(verb.id)
             </td>
             <td>
-              <a href="#(task.id)/info" class="label">#(task.title)</a>
+              <a href="verbs/#(verb.id)/info" class="label">#(verb.infinitive)</a>
             </td>
             <td>
-              #(task.description)
+              #(verb.transcription)
             </td>
             <td>
-              #(task.type)
+              #(verb.language)
             </td>
             <td>
-              <a href="#(task.id)/editTask" class="btn btn-warning">Редактировать</a>
+              <a href="verbs/#(verb.id)/editVerb" class="btn btn-warning">Редактировать</a>
             </td>
             <td>
-              <form method="post" action="#(task.id)/deleteTask">
+              <form method="post" action="verbs/#(verb.id)/deleteVerb">
                 <div class="form-group input-group">
                   <span class="input-group-btn">
                     <input class="btn btn-danger" type="submit" value="Удалить" />

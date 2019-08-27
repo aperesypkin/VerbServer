@@ -1,0 +1,38 @@
+#set("content") {
+  <h3>#(title) #if(count(answers) > 0){(#count(answers))}</h3>
+  <div class="mx-auto" style="height: 50px;">
+    <a href="answers/createAnswer" class="btn btn-primary">Создать</a>
+  </div>
+  #if(count(answers) > 0) {
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Value</th>
+          <th>isRight</th>
+          <th>VerbID</th>
+        </tr>
+      </thead>
+      <tbody>
+        #for(answer in answers) {
+          <tr class=#if(answer.isRight){table-success} else{table-danger}>
+            <td>
+              #(answer.id)
+            </td>
+            <td>
+              <a href="answers/#(answer.id)/info" class="label">#(answer.value)</a>
+            </td>
+            <td>
+              #(answer.isRight)
+            </td>
+            <td>
+              #(answer.verbID)
+            </td>
+        }
+      </tbody>
+    </table>
+  } else {
+    <h5>No data</h5>
+  }
+}
+#embed("base")

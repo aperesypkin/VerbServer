@@ -22,6 +22,9 @@ final class TaskController: RouteCollection {
         authRouter.post(Task.self, use: createHandler)
         authRouter.delete(Task.parameter, use: deleteHandler)
         authRouter.put(Task.parameter, use: updateHandler)
+        
+        authRouter.get(Task.parameter, "verbs", use: getVerbsHandler)
+        authRouter.post(Task.parameter, "verb", Verb.parameter, use: addVerbHandler)
     }
     
     // MARK: - Private
@@ -48,7 +51,7 @@ final class TaskController: RouteCollection {
     
     private func updateHandler(req: Request) throws -> Future<Task> {
         
-        return try flatMap(to: Task.self, req.parameters.next(Task.self), req.content.decode(TaskRequest.self)) { task, taskRequest in
+        return try flatMap(req.parameters.next(Task.self), req.content.decode(TaskRequest.self)) { task, taskRequest in
             if let title = taskRequest.title { task.title = title }
             if let description = taskRequest.description { task.description = description }
             if let type = taskRequest.type { task.type = type }
@@ -56,6 +59,18 @@ final class TaskController: RouteCollection {
             try task.validate()
             
             return task.save(on: req)
+        }
+    }
+    
+    private func addVerbHandler(req: Request) throws -> Future<HTTPStatus> {
+        return try flatMap(req.parameters.next(Task.self), req.parameters.next(Verb.self)) { task, verb in
+            return task.verbs.attach(verb, on: req).transform(to: .created)
+        }
+    }
+    
+    private func getVerbsHandler(req: Request) throws -> Future<[Verb]> {
+        return try req.parameters.next(Task.self).flatMap { task in
+            try task.verbs.query(on: req).all()
         }
     }
 }

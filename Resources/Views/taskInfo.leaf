@@ -1,0 +1,31 @@
+#set("content") {
+  <h3>#(title)</h3>
+  <p class="h8"><b>Identifier:</b> #(task.id)</p>
+  <p class="h8"><b>Title:</b> #(task.title)</p>
+  <p class="h8"><b>Description:</b> #(task.description)</p>
+  <p class="h8"><b>Type:</b> #(task.type)</p>
+  #if(count(verbs) > 0) {
+    <h3>Глаголы</h3>
+    <table class="table">
+      <tbody>
+        #for(verb in verbs) {
+          <tr>
+            <td>
+              <a href="/verbs/#(verb.id)/info" class="label">#(verb.infinitive)</a>
+            </td>
+            <td>
+              <form method="post" action="/#(task.id)/detach/#(verb.id)">
+                <div class="form-group input-group">
+                  <span class="input-group-btn">
+                    <input class="btn btn-danger" type="submit" value="Detach" />
+                  </span>
+                </div>
+              </form>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}
+#embed("base")

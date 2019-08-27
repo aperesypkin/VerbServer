@@ -1,0 +1,19 @@
+#set("content") {
+  <h3>#(title)</h3>
+  <form method="post">
+    <div class="form-group">
+      <input type="text" name="infinitive" placeholder="Infinitive" class="form-control" id="infinitive"/>
+    </div>
+    <div class="form-group">
+      <input type="text" name="transcription" placeholder="Transcription" class="form-control" id="transcription"/>
+    </div>
+    <div class="form-group">
+    <select class="form-control" name="language" id="language">
+      <option>english</option>
+      <option>russian</option>
+    </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+  </form>
+}
+#embed("base")

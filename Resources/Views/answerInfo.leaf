@@ -1,0 +1,17 @@
+#set("content") {
+  <h3>#(title)</h3>
+  <p class="h8"><b>Identifier:</b> #(answer.id)</p>
+  <p class="h8"><b>Value:</b> #(answer.value)</p>
+  <p class="h8"><b>isRight:</b> #(answer.isRight)</p>
+  <p class="h8"><b>Verb:</b> <a href="/verbs/#(verb.id)/info" class="label">#(verb.infinitive)</a></p>
+  <a href="/answers/#(answer.id)/editAnswer" class="btn btn-warning">Редактировать</a>
+  <p></p>
+  <form method="post" action="/answers/#(answer.id)/deleteAnswer">
+    <div class="form-group input-group">
+      <span class="input-group-btn">
+        <input class="btn btn-danger" type="submit" value="Удалить" />
+      </span>
+    </div>
+  </form>
+}
+#embed("base")
