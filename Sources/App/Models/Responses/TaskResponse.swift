@@ -9,5 +9,5 @@ import Vapor
 
 struct TaskResponse: Content {
     let tasks: [Task]
-    let count: Int
+    let totalCount: Int
 }

@@ -29,7 +29,7 @@
               <form method="post" action="#(task.id)/delete">
                 <div class="form-group input-group">
                   <span class="input-group-btn">
-                    <input class="btn btn-danger" type="submit" value="delete" />
+                    <input class="btn btn-danger" type="submit" value="Удалить" />
                   </span>
                 </div>
               </form>
