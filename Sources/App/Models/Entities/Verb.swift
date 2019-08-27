@@ -14,13 +14,13 @@ final class Verb {
     
     var id: Int?
     var infinitive: String
-    var transcription: String
+    var transcription: String?
     var createdAt: Date?
     var updatedAt: Date?
     
     // MARK: - Initialization
     
-    init(infinitive: String, transcription: String) {
+    init(infinitive: String, transcription: String? = nil) {
         self.infinitive = infinitive
         self.transcription = transcription
     }
