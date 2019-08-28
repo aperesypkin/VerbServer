@@ -19,7 +19,9 @@ final class UserController: RouteCollection {
         userRouter.get("info", use: getAllHandler)
         
         let basicAuthRouter = userRouter.grouped(User.basicAuthMiddleware(using: BCryptDigest()))
-        basicAuthRouter.post("login", use: loginHandler)
+        basicAuthRouter.post("token", "generate", use: generateTokenHandler)
+        basicAuthRouter.get("token", "info", use: getAllTokenHandler)
+        basicAuthRouter.delete("token", Token.parameter, use: deleteTokenHandler)
     }
     
     // MARK: - Private
@@ -29,10 +31,20 @@ final class UserController: RouteCollection {
         return User.query(on: req).all()
     }
     
-    func loginHandler(req: Request) throws -> Future<Token> {
+    func generateTokenHandler(req: Request) throws -> Future<Token> {
         
         let user = try req.requireAuthenticated(User.self)
         let token = try Token.generate(for: user)
         return token.save(on: req)
+    }
+    
+    private func getAllTokenHandler(req: Request) throws -> Future<[Token]> {
+        
+        return Token.query(on: req).all()
+    }
+    
+    private func deleteTokenHandler(req: Request) throws -> Future<HTTPStatus> {
+        
+        return try req.parameters.next(Token.self).delete(on: req).transform(to: .noContent)
     }
 }

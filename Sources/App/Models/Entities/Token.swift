@@ -42,6 +42,10 @@ extension Token: Migration {}
 
 extension Token: Content {}
 
+// MARK: - Parameter
+
+extension Token: Parameter {}
+
 // MARK: - Token
 
 extension Token: Authentication.Token {
