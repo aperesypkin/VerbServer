@@ -25,7 +25,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     // Register the configured database to the database config.
     var databasesConfig = DatabasesConfig()
-    try databases(config: &databasesConfig)
+    try databases(config: &databasesConfig, env: &env)
     services.register(databasesConfig)
     
     // Configure migrations

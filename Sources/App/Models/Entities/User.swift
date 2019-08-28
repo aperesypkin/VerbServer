@@ -75,7 +75,7 @@ extension User: SessionAuthenticatable {}
 struct AdminUser: PostgreSQLMigration {
     
     static func prepare(on conn: PostgreSQLConnection) -> Future<Void> {
-        let password = try? BCrypt.hash("123456")
+        let password = try? BCrypt.hash(Environment.get("ADMIN_PASSWORD") ?? "123456")
         guard let hashedPassword = password else { fatalError("Failed to create admin user") }
         let user = User(username: "admin", password: hashedPassword)
         return user.save(on: conn).transform(to: ())
