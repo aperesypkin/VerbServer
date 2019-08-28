@@ -1,0 +1,25 @@
+#set("content") {
+  <h3>#(title)</h3>
+  <p class="h8"><b>Verb:</b> #(verb.infinitive) <b>ID:</b> #(verb.id)</p>
+  <table class="table w-75">
+    <tbody>
+      #for(task in tasks) {
+        <tr>
+          <td>
+            <a href="/#(task.id)/info" class="label">#(task.title)</a>
+          </td>
+          <td>
+            <form method="post" action="/verbs/#(verb.id)/attachTask/#(task.id)">
+              <div class="form-group input-group">
+                <span class="input-group-btn">
+                  <input class="btn btn-primary" type="submit" value="Attach task" />
+                </span>
+              </div>
+            </form>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+#embed("base")

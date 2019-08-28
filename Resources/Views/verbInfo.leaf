@@ -4,6 +4,8 @@
   <p class="h8"><b>Infinitive:</b> #(verb.infinitive)</p>
   <p class="h8"><b>Transcription:</b> #(verb.transcription)</p>
   <p class="h8"><b>Language:</b> #(verb.language)</p>
+  <p>
+  <a href="/verbs/#(verb.id)/attachTask" class="btn btn-primary">Attach task</a>
   #if(count(tasks) > 0) {
     <h3>Таски</h3>
     <table class="table w-75">

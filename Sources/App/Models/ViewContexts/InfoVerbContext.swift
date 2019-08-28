@@ -12,5 +12,4 @@ struct InfoVerbContext: Encodable {
     let verb: Verb
     let tasks: Future<[Task]>
     let answers: Future<[Answer]>
-    let allTasks: Future<[Task]>
 }

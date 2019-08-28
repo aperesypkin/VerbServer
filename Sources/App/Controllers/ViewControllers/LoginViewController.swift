@@ -27,12 +27,7 @@ final class LoginViewController: RouteCollection {
     
     private func loginHandler(req: Request) throws -> Future<View> {
         
-        let context: LoginContext
-        if req.query[Bool.self, at: "error"] != nil {
-            context = LoginContext(loginError: true)
-        } else {
-            context = LoginContext()
-        }
+        let context = LoginContext(loginError: req.query[Bool.self, at: "error"] != nil)
         return try req.view().render("login", context)
     }
     

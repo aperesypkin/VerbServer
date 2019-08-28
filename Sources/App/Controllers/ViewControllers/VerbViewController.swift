@@ -33,6 +33,9 @@ final class VerbViewController: RouteCollection {
         
         authRouter.get(Verb.parameter, "info", use: infoHandler)
         authRouter.post(Verb.parameter, "detach", Task.parameter, use: detachTaskHandler)
+        
+        authRouter.get(Verb.parameter, "attachTask", use: attachTaskHandler)
+        authRouter.post(Verb.parameter, "attachTask", Task.parameter, use: attachTaskPostHandler)
     }
     
     // MARK: - Private
@@ -86,8 +89,7 @@ final class VerbViewController: RouteCollection {
         return try req.parameters.next(Verb.self).flatMap { verb in
             let tasks = try verb.tasks.query(on: req).all()
             let answers = try verb.answers.query(on: req).all()
-            let allTasks = Task.query(on: req).sort(\.id, .ascending).all()
-            let context = InfoVerbContext(verb: verb, tasks: tasks, answers: answers, allTasks: allTasks)
+            let context = InfoVerbContext(verb: verb, tasks: tasks, answers: answers)
             return try req.view().render("verbInfo", context)
         }
     }
@@ -95,15 +97,25 @@ final class VerbViewController: RouteCollection {
     private func detachTaskHandler(req: Request) throws -> Future<Response> {
         
         return try flatMap(req.parameters.next(Verb.self), req.parameters.next(Task.self)) { verb, task in
-            let redirectUrl: String
-            
-            if let verbId = verb.id {
-                redirectUrl = "/verbs/\(verbId)/info"
-            } else {
-                redirectUrl = "/verbs"
-            }
-            
-            return verb.tasks.detach(task, on: req).transform(to: req.redirect(to: redirectUrl))
+            guard let verbId = verb.id else { throw Abort(.badRequest) }
+            return verb.tasks.detach(task, on: req).transform(to: req.redirect(to: "/verbs/\(verbId)/info"))
+        }
+    }
+    
+    private func attachTaskHandler(req: Request) throws -> Future<View> {
+        
+        return try req.parameters.next(Verb.self).flatMap { verb in
+            let tasks = Task.query(on: req).sort(\.id, .ascending).all()
+            let context = AttachTaskContext(verb: verb, tasks: tasks)
+            return try req.view().render("attachTask", context)
+        }
+    }
+    
+    private func attachTaskPostHandler(req: Request) throws -> Future<Response> {
+        
+        return try flatMap(req.parameters.next(Verb.self), req.parameters.next(Task.self)) { verb, task in
+            guard let verbId = verb.id else { throw Abort(.badRequest) }
+            return verb.tasks.attach(task, on: req).transform(to: req.redirect(to: "/verbs/\(verbId)/info"))
         }
     }
 }
