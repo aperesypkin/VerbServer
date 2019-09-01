@@ -10,7 +10,7 @@
     <div class="form-group">
     <select class="form-control" name="type" id="type">
       <option>threeForms</option>
-      <option>translate</option>
+      <option>translation</option>
     </select>
     </div>
     <button type="submit" class="btn btn-primary">Сохранить</button>

@@ -9,4 +9,5 @@ import Vapor
 
 struct CreateAnswerContext: Encodable {
     let title = "Создать ответ"
+    let verb: Verb?
 }

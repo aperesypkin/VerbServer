@@ -5,7 +5,16 @@
       <input type="text" name="infinitive" placeholder="Infinitive" class="form-control" id="infinitive"/>
     </div>
     <div class="form-group">
-      <input type="text" name="transcription" placeholder="Transcription" class="form-control" id="transcription"/>
+      <input type="text" name="pastSimple" placeholder="Past simple (Optional)" class="form-control" id="pastSimple"/>
+    </div>
+    <div class="form-group">
+      <input type="text" name="pastParticiple" placeholder="Past participle (Optional)" class="form-control" id="pastParticiple"/>
+    </div>
+    <div class="form-group">
+      <input type="text" name="translation" placeholder="Translation (Optional)" class="form-control" id="translation"/>
+    </div>
+    <div class="form-group">
+      <input type="text" name="transcription" placeholder="Transcription (Optional)" class="form-control" id="transcription"/>
     </div>
     <div class="form-group">
     <select class="form-control" name="language" id="language">

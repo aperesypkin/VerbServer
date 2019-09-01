@@ -10,7 +10,7 @@
     <div class="form-group">
     <select class="form-control" name="type" id="type">
       <option #if(task.type == "threeForms"){selected}>threeForms</option>
-      <option #if(task.type == "translate"){selected}>translate</option>
+      <option #if(task.type == "translation"){selected}>translation</option>
     </select>
     </div>
     <button type="submit" class="btn btn-primary">Сохранить</button>

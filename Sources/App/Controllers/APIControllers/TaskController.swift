@@ -77,6 +77,9 @@ final class TaskController: RouteCollection {
                     try verb.answers.query(on: req).all().map { answers in
                         VerbWithAnswersResponse(id: verb.id,
                                                 infinitive: verb.infinitive,
+                                                pastSimple: verb.pastSimple,
+                                                pastParticiple: verb.pastParticiple,
+                                                translation: verb.translation,
                                                 language: verb.language,
                                                 transcription: verb.transcription,
                                                 createdAt: verb.createdAt,

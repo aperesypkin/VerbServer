@@ -10,7 +10,7 @@ import FluentPostgreSQL
 
 enum TaskType: String, PostgreSQLEnum {
     case threeForms
-    case translate
+    case translation
 }
 
 // MARK: - PostgreSQLMigration

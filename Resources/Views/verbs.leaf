@@ -9,6 +9,9 @@
         <tr>
           <th>ID</th>
           <th>Infinitive</th>
+          <th>Past simple</th>
+          <th>Past participle</th>
+          <th>Translation</th>
           <th>Transcription</th>
           <th>Language</th>
           <th></th>
@@ -23,6 +26,15 @@
             </td>
             <td>
               <a href="verbs/#(verb.id)/info" class="label">#(verb.infinitive)</a>
+            </td>
+            <td>
+              #(verb.pastSimple)
+            </td>
+            <td>
+              #(verb.pastParticiple)
+            </td>
+            <td>
+              #(verb.translation)
             </td>
             <td>
               #(verb.transcription)

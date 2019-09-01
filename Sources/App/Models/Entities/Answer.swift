@@ -47,7 +47,6 @@ extension Answer: Migration {
     static func prepare(on connection: PostgreSQLConnection) -> Future<Void> {
         return Database.create(self, on: connection) { builder in
             try addProperties(to: builder)
-            builder.unique(on: \.value)
             builder.reference(from: \.verbID, to: \Verb.id, onDelete: .cascade)
         }
     }

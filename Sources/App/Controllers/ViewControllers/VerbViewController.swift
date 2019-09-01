@@ -36,6 +36,9 @@ final class VerbViewController: RouteCollection {
         
         authRouter.get(Verb.parameter, "attachTask", use: attachTaskHandler)
         authRouter.post(Verb.parameter, "attachTask", Task.parameter, use: attachTaskPostHandler)
+        
+        authRouter.get(Verb.parameter, "createAnswer", use: createAnswerHandler)
+        authRouter.post(Answer.self, at: Verb.parameter, "createAnswer", use: createAnswerPostHandler)
     }
     
     // MARK: - Private
@@ -116,6 +119,23 @@ final class VerbViewController: RouteCollection {
         return try flatMap(req.parameters.next(Verb.self), req.parameters.next(Task.self)) { verb, task in
             guard let verbId = verb.id else { throw Abort(.badRequest) }
             return verb.tasks.attach(task, on: req).transform(to: req.redirect(to: "/verbs/\(verbId)/info"))
+        }
+    }
+    
+    private func createAnswerHandler(req: Request) throws -> Future<View> {
+        
+        return try req.parameters.next(Verb.self).flatMap { verb in
+            let context = CreateAnswerContext(verb: verb)
+            return try req.view().render("createAnswer", context)
+        }
+    }
+    
+    private func createAnswerPostHandler(req: Request, answer: Answer) throws -> Future<Response> {
+        
+        try answer.validate()
+        return try req.parameters.next(Verb.self).flatMap { verb in
+            guard let verbId = verb.id else { throw Abort(.badRequest) }
+            return answer.save(on: req).transform(to: req.redirect(to: "/verbs/\(verbId)/info"))
         }
     }
 }

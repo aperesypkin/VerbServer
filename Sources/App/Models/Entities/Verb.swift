@@ -14,6 +14,9 @@ final class Verb {
     
     var id: Int?
     var infinitive: String
+    var pastSimple: String?
+    var pastParticiple: String?
+    var translation: String?
     var language: Language
     var transcription: String?
     var createdAt: Date?
@@ -21,8 +24,16 @@ final class Verb {
     
     // MARK: - Initialization
     
-    init(infinitive: String, language: Language, transcription: String? = nil) {
+    init(infinitive: String,
+         pastSimple: String? = nil,
+         pastParticiple: String? = nil,
+         translation: String? = nil,
+         language: Language,
+         transcription: String? = nil) {
         self.infinitive = infinitive
+        self.pastSimple = pastSimple
+        self.pastParticiple = pastParticiple
+        self.translation = translation
         self.language = language
         self.transcription = transcription
     }

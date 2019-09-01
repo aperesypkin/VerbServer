@@ -45,7 +45,7 @@ final class AnswerViewController: RouteCollection {
     
     private func createAnswerHandler(req: Request) throws -> Future<View> {
         
-        let context = CreateAnswerContext()
+        let context = CreateAnswerContext(verb: nil)
         return try req.view().render("createAnswer", context)
     }
     
